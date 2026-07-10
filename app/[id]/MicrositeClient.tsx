@@ -54,14 +54,15 @@ export default function MicrositeClient({ image }: ImageProps) {
 
     const prefetchImage = async () => {
       try {
-        const targetUrl = `/api/download?url=${encodeURIComponent(imageUrl)}`;
+        const targetUrl = `/api/download?id=${image.id}`;
         const response = await fetch(targetUrl);
         if (!response.ok) throw new Error('Proxy download failed');
         
         const blob = await response.blob();
         const fileExt = imageUrl.split('.').pop()?.split('?')[0] || 'jpg';
+        const fileType = fileExt === 'png' ? 'image/png' : 'image/jpeg';
         const filename = `souvenir.${fileExt}`;
-        const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
+        const file = new File([blob], filename, { type: blob.type && blob.type !== 'application/octet-stream' ? blob.type : fileType });
         setImageFile(file);
       } catch (err) {
         console.error('Pre-fetching image file for share failed:', err);
@@ -69,7 +70,7 @@ export default function MicrositeClient({ image }: ImageProps) {
     };
 
     prefetchImage();
-  }, [imageLoaded, imageUrl]);
+  }, [imageLoaded, imageUrl, image.id]);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -129,12 +130,13 @@ export default function MicrositeClient({ image }: ImageProps) {
     // 2. Fallback: pre-fetch was slow or failed, download file dynamically
     setIsSharing(true);
     try {
-      const targetUrl = `/api/download?url=${encodeURIComponent(imageUrl)}`;
+      const targetUrl = `/api/download?id=${image.id}`;
       const response = await fetch(targetUrl);
       const blob = await response.blob();
       const fileExt = imageUrl.split('.').pop()?.split('?')[0] || 'jpg';
+      const fileType = fileExt === 'png' ? 'image/png' : 'image/jpeg';
       const filename = `souvenir.${fileExt}`;
-      const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
+      const file = new File([blob], filename, { type: blob.type && blob.type !== 'application/octet-stream' ? blob.type : fileType });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({

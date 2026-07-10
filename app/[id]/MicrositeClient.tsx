@@ -24,7 +24,6 @@ export default function MicrositeClient({ image }: ImageProps) {
   const [isIOS, setIsIOS] = useState<boolean | null>(null);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
   const [isSharing, setIsSharing] = useState<boolean>(false);
-  const [copied, setCopied] = useState<boolean>(false);
   const [downloadSuccess, setDownloadSuccess] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
@@ -116,11 +115,6 @@ export default function MicrositeClient({ image }: ImageProps) {
     }
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
 
   return (
     <main className="min-h-screen bg-[#EEE8E0] text-[#2C2520] flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
@@ -199,20 +193,6 @@ export default function MicrositeClient({ image }: ImageProps) {
         <path d="M 20,18 C 27,16 30,22 26,25 C 23,26 20,21 20,18 Z" fill="currentColor" fillOpacity="0.05" />
       </svg>
 
-      {/* Header bar */}
-      <header className="w-full max-w-xl mx-auto flex items-center justify-between py-4 relative z-10">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[#AE7FD2] animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#5C5047]">Lumina Experience</span>
-        </div>
-        <button
-          onClick={handleCopyLink}
-          className="text-xs font-semibold text-[#5C5047] hover:text-[#AE7FD2] bg-white border border-[#AE7FD2]/20 px-3 py-1.5 rounded-full transition-all active:scale-95 duration-200 cursor-pointer"
-        >
-          {copied ? 'Link Copied!' : 'Copy Link'}
-        </button>
-      </header>
-
       {/* Main Container */}
       <div className="w-full max-w-md mx-auto my-auto relative z-10 flex flex-col items-center gap-5">
         
@@ -225,121 +205,95 @@ export default function MicrositeClient({ image }: ImageProps) {
           <h1 className="font-script text-4xl sm:text-5xl text-[#9A69BD] leading-none tracking-wide -mt-1.5">
             Glowing Skin
           </h1>
-          <div className="flex items-center justify-center gap-2 text-[#AE7FD2]/60 py-1.5 w-32">
-            <div className="flex-1 h-[0.8px] bg-current" />
-            <span className="text-[8px]">✦</span>
-            <div className="flex-1 h-[0.8px] bg-current" />
-          </div>
-          <p className="font-serif text-base tracking-[0.08em] text-[#3A302B] uppercase font-semibold">
-            Meet us at our Pop-Up
-          </p>
         </div>
 
-        {/* Polaroid Card wrapper */}
-        <div className="w-full bg-white border border-[#AE7FD2]/20 rounded-[2rem] p-5 shadow-[0_8px_30px_rgba(174,127,210,0.1)] flex flex-col gap-5">
-          
-          {/* Image Display */}
-          <div className="relative w-full aspect-[4/5] rounded-[1.4rem] overflow-hidden bg-[#ECE6DD]/80 border border-[#AE7FD2]/15 shadow-inner flex items-center justify-center group">
-            {!imageLoaded && !imageError && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                <div className="w-9 h-9 border-2 border-[#AE7FD2]/20 border-t-[#AE7FD2] rounded-full animate-spin" />
-                <span className="text-[11px] text-zinc-500 font-medium">Loading memory...</span>
-              </div>
-            )}
+        {/* Image Display */}
+        <div className="relative w-[90%] aspect-[4/5] rounded-[1.4rem] overflow-hidden bg-[#ECE6DD]/80 border border-[#AE7FD2]/15 shadow-[0_8px_30px_rgba(174,127,210,0.06)] flex items-center justify-center group">
+          {!imageLoaded && !imageError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+              <div className="w-9 h-9 border-2 border-[#AE7FD2]/20 border-t-[#AE7FD2] rounded-full animate-spin" />
+              <span className="text-[11px] text-zinc-500 font-medium">Loading memory...</span>
+            </div>
+          )}
 
-            {imageError && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center z-20 bg-[#EEE8E0]/90">
-                <ImageIcon className="w-10 h-10 text-[#AE7FD2]/60 mb-1" />
-                <span className="text-sm font-semibold text-zinc-700">Preview Unavailable</span>
-                <span className="text-[11px] text-zinc-500 leading-normal">
-                  The image preview failed to load. However, the download and share buttons below remain fully functional.
-                </span>
-              </div>
-            )}
+          {imageError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center z-20 bg-[#EEE8E0]/90">
+              <ImageIcon className="w-10 h-10 text-[#AE7FD2]/60 mb-1" />
+              <span className="text-sm font-semibold text-zinc-700">Preview Unavailable</span>
+              <span className="text-[11px] text-zinc-500 leading-normal">
+                The image preview failed to load. However, the download and share buttons below remain fully functional.
+              </span>
+            </div>
+          )}
 
-            <img
-              ref={imgRef}
-              src={imageUrl}
-              alt="Lumina Souvenir"
-              onLoad={() => setImageLoaded(true)}
-              onError={() => {
-                setImageError(true);
-                setImageLoaded(false);
-              }}
-              className={`w-full h-full object-cover relative z-10 transition-all duration-700 ease-out select-none pointer-events-none ${
-                imageLoaded && !imageError ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+          <img
+            ref={imgRef}
+            src={imageUrl}
+            alt="Lumina Souvenir"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              setImageError(true);
+              setImageLoaded(false);
+            }}
+            className={`w-full h-full object-cover relative z-10 transition-all duration-700 ease-out select-none pointer-events-none ${
+              imageLoaded && !imageError ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+            }`}
+          />
+        </div>
+
+        {/* Action Area */}
+        <div className="w-[90%] flex flex-col gap-2.5">
+          {isIOS === null ? (
+            // Loading fallback skeleton
+            <div className="h-13 w-full bg-zinc-200/50 animate-pulse rounded-xl" />
+          ) : isIOS ? (
+            // iOS Native Share Trigger
+            <button
+              onClick={handleShare}
+              disabled={isSharing}
+              className="w-full h-13 bg-[#AE7FD2] hover:bg-[#9E6DC4] active:scale-[0.98] disabled:opacity-80 transition-all duration-300 rounded-xl font-semibold text-white shadow-md shadow-[#AE7FD2]/20 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden"
+            >
+              {isSharing ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <span className="text-xs uppercase tracking-wider">Preparing Share...</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-4 h-4" />
+                  <span className="text-xs uppercase tracking-wider">Share & Save Image</span>
+                </>
+              )}
+            </button>
+          ) : (
+            // Android & PC Direct Download
+            <button
+              onClick={handleDownload}
+              disabled={isDownloading || downloadSuccess}
+              className={`w-full h-13 transition-all duration-300 rounded-xl font-semibold text-white shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
+                downloadSuccess
+                  ? 'bg-emerald-600 shadow-emerald-600/10'
+                  : 'bg-[#AE7FD2] hover:bg-[#9E6DC4] shadow-[#AE7FD2]/20'
               }`}
-            />
-          </div>
-
-          {/* Action Area */}
-          <div className="flex flex-col gap-2.5">
-            {isIOS === null ? (
-              // Loading fallback skeleton
-              <div className="h-13 w-full bg-zinc-200/50 animate-pulse rounded-xl" />
-            ) : isIOS ? (
-              // iOS Native Share Trigger
-              <button
-                onClick={handleShare}
-                disabled={isSharing}
-                className="w-full h-13 bg-[#AE7FD2] hover:bg-[#9E6DC4] active:scale-[0.98] disabled:opacity-80 transition-all duration-300 rounded-xl font-semibold text-white shadow-md shadow-[#AE7FD2]/20 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden"
-              >
-                {isSharing ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    <span className="text-xs uppercase tracking-wider">Preparing Share...</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-4 h-4" />
-                    <span className="text-xs uppercase tracking-wider">Share & Save Image</span>
-                  </>
-                )}
-              </button>
-            ) : (
-              // Android & PC Direct Download
-              <button
-                onClick={handleDownload}
-                disabled={isDownloading || downloadSuccess}
-                className={`w-full h-13 transition-all duration-300 rounded-xl font-semibold text-white shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
-                  downloadSuccess
-                    ? 'bg-emerald-600 shadow-emerald-600/10'
-                    : 'bg-[#AE7FD2] hover:bg-[#9E6DC4] shadow-[#AE7FD2]/20'
-                }`}
-              >
-                {isDownloading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    <span className="text-xs uppercase tracking-wider">Downloading...</span>
-                  </>
-                ) : downloadSuccess ? (
-                  <>
-                    <CheckCircle className="w-4 h-4 animate-bounce" />
-                    <span className="text-xs uppercase tracking-wider">Saved Successfully!</span>
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4" />
-                    <span className="text-xs uppercase tracking-wider">Download Image</span>
-                  </>
-                )}
-              </button>
-            )}
-
-            {/* Platform notes */}
-            {isIOS && (
-              <p className="text-[9px] text-center text-[#5C5047] leading-relaxed px-4">
-                Tap the button to open the share sheet, then select <strong className="text-zinc-700">"Save Image"</strong>.
-              </p>
-            )}
-            
-            {!isIOS && isIOS !== null && (
-              <p className="text-[9px] text-center text-[#5C5047] leading-relaxed px-4">
-                The image will download automatically to your Downloads folder.
-              </p>
-            )}
-          </div>
-
+            >
+              {isDownloading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <span className="text-xs uppercase tracking-wider">Downloading...</span>
+                </>
+              ) : downloadSuccess ? (
+                <>
+                  <CheckCircle className="w-4 h-4 animate-bounce" />
+                  <span className="text-xs uppercase tracking-wider">Saved Successfully!</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" />
+                  <span className="text-xs uppercase tracking-wider">Download Image</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
 
       </div>
@@ -347,7 +301,7 @@ export default function MicrositeClient({ image }: ImageProps) {
       {/* Footer */}
       <footer className="w-full text-center py-4 relative z-10">
         <p className="text-[9px] text-[#5C5047]/60 tracking-wider">
-          © {new Date().getFullYear()} Lumina Havelock • Powered by FLYXTO
+          Powered by FLYXTO
         </p>
       </footer>
 

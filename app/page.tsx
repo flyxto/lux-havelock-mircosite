@@ -1,40 +1,75 @@
 import { Metadata } from 'next';
-import { Camera, QrCode, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Lumina Havelock Experience Portal',
-  description: 'Access your high-quality souvenirs and digital memories from the Lumina Havelock experience.',
+  title: 'Bonjour to Glowing Skin',
+  description: 'Bonjour to Glowing Skin experience portal.',
+};
+
+// Hardcoded user-calibrated layout coordinates
+const FLOWER_CONFIG = {
+  flower1: { size: 250, rotation: 20, x: -141, y: 105 },
+  flower2: { size: 322, rotation: 185, x: -133, y: -175 },
+  flower3: { size: 264, rotation: 45, x: -96, y: -144 },
+  flower4: { size: 260, rotation: 320, x: -180, y: 14 },
 };
 
 export default function RootPage() {
   return (
-    <main className="min-h-screen bg-[#EEE8E0] text-[#2C2520] flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
+    <main className="min-h-screen bg-[#EEE8E0] text-[#2C2520] flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans select-none">
       
       {/* Elegant Double Framing Borders */}
-      <div className="absolute inset-4 sm:inset-6 border border-[#AE7FD2]/30 rounded-[2.2rem] pointer-events-none z-0" />
-      <div className="absolute inset-[22px] sm:inset-[30px] border border-[#AE7FD2]/50 rounded-[1.9rem] pointer-events-none z-0">
+      <div className="absolute inset-4 sm:inset-6 border border-[#AE7FD2]/30 pointer-events-none z-0" />
+      <div className="absolute inset-[22px] sm:inset-[30px] border border-[#AE7FD2]/50 pointer-events-none z-0">
         
-        {/* Corner Flourishes */}
-        {/* Top-Left */}
-        <svg className="absolute top-3 left-3 w-5 h-5 text-[#AE7FD2]/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Top-Right */}
-        <svg className="absolute top-3 right-3 w-5 h-5 text-[#AE7FD2]/85 rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Bottom-Left */}
-        <svg className="absolute bottom-3 left-3 w-5 h-5 text-[#AE7FD2]/85 -rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Bottom-Right */}
-        <svg className="absolute bottom-3 right-3 w-5 h-5 text-[#AE7FD2]/85 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
+        {/* Corner Flowers */}
+        <img 
+          src="/images/flower-1.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower1.size}px`,
+            height: `${FLOWER_CONFIG.flower1.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower1.rotation}deg)`,
+            top: `${FLOWER_CONFIG.flower1.y}px`,
+            left: `${FLOWER_CONFIG.flower1.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-2.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower2.size}px`,
+            height: `${FLOWER_CONFIG.flower2.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower2.rotation}deg)`,
+            top: `${FLOWER_CONFIG.flower2.y}px`,
+            right: `${FLOWER_CONFIG.flower2.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-3.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower3.size}px`,
+            height: `${FLOWER_CONFIG.flower3.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower3.rotation}deg)`,
+            bottom: `${FLOWER_CONFIG.flower3.y}px`,
+            left: `${FLOWER_CONFIG.flower3.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-4.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower4.size}px`,
+            height: `${FLOWER_CONFIG.flower4.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower4.rotation}deg)`,
+            bottom: `${FLOWER_CONFIG.flower4.y}px`,
+            right: `${FLOWER_CONFIG.flower4.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
       </div>
 
       {/* Botanical Backdrop Line Drawings */}
@@ -55,82 +90,17 @@ export default function RootPage() {
         <path d="M 20,18 C 27,16 30,22 26,25 C 23,26 20,21 20,18 Z" fill="currentColor" fillOpacity="0.05" />
       </svg>
 
-      {/* Header */}
-      <header className="w-full max-w-xl mx-auto flex items-center justify-center py-4 relative z-10">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[#AE7FD2] animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#5C5047]">Lumina Havelock</span>
-        </div>
-      </header>
-
-      {/* Main Card */}
-      <div className="w-full max-w-md mx-auto my-auto relative z-10 flex flex-col items-center gap-5">
-        
-        {/* Invitation Text Frame */}
-        <div className="text-center flex flex-col items-center select-none">
-          <h1 className="font-script text-4xl sm:text-5xl text-[#9A69BD] leading-tight tracking-wide">
-            Bonjour to
-          </h1>
-          <h1 className="font-script text-4xl sm:text-5xl text-[#9A69BD] leading-none tracking-wide -mt-1.5">
-            Glowing Skin
-          </h1>
-          <div className="flex items-center justify-center gap-2 text-[#AE7FD2]/60 py-1.5 w-32">
-            <div className="flex-1 h-[0.8px] bg-current" />
-            <span className="text-[8px]">✦</span>
-            <div className="flex-1 h-[0.8px] bg-current" />
-          </div>
-          <p className="font-serif text-base tracking-[0.08em] text-[#3A302B] uppercase font-semibold">
-            Meet us at our Pop-Up
-          </p>
-        </div>
-
-        <div className="w-full bg-white/50 backdrop-blur-xl border border-white/70 rounded-[2.5rem] p-7 sm:p-8 text-center shadow-[0_8px_30px_rgba(174,127,210,0.1)] flex flex-col items-center gap-6">
-          <div className="w-14 h-14 bg-[#AE7FD2]/10 border border-[#AE7FD2]/20 rounded-2xl flex items-center justify-center text-[#AE7FD2]">
-            <Camera className="w-7 h-7" />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <h2 className="text-lg font-bold text-zinc-800 tracking-tight uppercase">
-              Capture Your Souvenir
-            </h2>
-            <p className="text-xs text-[#5C5047] leading-relaxed px-2 font-medium">
-              Scan the custom QR code presented at the terminal display at the end of your Lumina experience.
-            </p>
-          </div>
-
-          <div className="w-full border-t border-[#AE7FD2]/15 my-1" />
-
-          {/* Guide Steps */}
-          <div className="w-full flex flex-col gap-3.5 text-left">
-            <div className="flex items-start gap-4 p-3.5 bg-white/40 rounded-xl border border-white/60">
-              <div className="w-7 h-7 bg-[#AE7FD2]/10 border border-[#AE7FD2]/20 rounded-lg flex items-center justify-center text-[#AE7FD2] text-xs font-bold shrink-0">
-                1
-              </div>
-              <div>
-                <h3 className="text-xs font-bold text-zinc-850 uppercase tracking-wide">Scan QR Code</h3>
-                <p className="text-[11px] text-[#5C5047] leading-normal font-medium mt-0.5">Scan the QR code displayed at the photo booth with your phone's camera.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-3.5 bg-white/40 rounded-xl border border-white/60">
-              <div className="w-7 h-7 bg-[#AE7FD2]/10 border border-[#AE7FD2]/20 rounded-lg flex items-center justify-center text-[#AE7FD2] text-xs font-bold shrink-0">
-                2
-              </div>
-              <div>
-                <h3 className="text-xs font-bold text-zinc-850 uppercase tracking-wide">View & Save</h3>
-                <p className="text-[11px] text-[#5C5047] leading-normal font-medium mt-0.5">Save the digital copy directly to your photo album or share it with friends.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Centered Giant Calligraphy Heading */}
+      <div className="text-center relative z-10 flex flex-col items-center max-w-lg px-4 select-none">
+        <img src="/images/Lux-Logo-flat.png" alt="LUX Logo" className="w-24 sm:w-28 h-auto object-contain brightness-0 mb-2 sm:mb-3" />
+        <h1 className="font-script text-7xl sm:text-9xl text-[#9A69BD] leading-tight tracking-wide">
+          Bonjour to
+        </h1>
+        <h1 className="font-script text-7xl sm:text-9xl text-[#9A69BD] leading-none tracking-wide -mt-3 sm:-mt-5">
+          Glowing Skin
+        </h1>
       </div>
 
-      {/* Footer */}
-      <footer className="w-full text-center py-4 relative z-10">
-        <p className="text-[9px] text-[#5C5047]/60 tracking-wider">
-          © {new Date().getFullYear()} Lumina Havelock • Powered by FLYXTO
-        </p>
-      </footer>
     </main>
   );
 }

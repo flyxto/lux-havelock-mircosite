@@ -12,6 +12,14 @@ interface ImageProps {
   };
 }
 
+// Hardcoded user-calibrated layout coordinates
+const FLOWER_CONFIG = {
+  flower1: { size: 250, rotation: 20, x: -141, y: 105 },
+  flower2: { size: 322, rotation: 185, x: -133, y: -175 },
+  flower3: { size: 264, rotation: 45, x: -96, y: -144 },
+  flower4: { size: 260, rotation: 320, x: -180, y: 14 },
+};
+
 export default function MicrositeClient({ image }: ImageProps) {
   const [isIOS, setIsIOS] = useState<boolean | null>(null);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
@@ -118,30 +126,57 @@ export default function MicrositeClient({ image }: ImageProps) {
     <main className="min-h-screen bg-[#EEE8E0] text-[#2C2520] flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
       
       {/* Elegant Double Framing Borders */}
-      <div className="absolute inset-4 sm:inset-6 border border-[#AE7FD2]/30 rounded-[2.2rem] pointer-events-none z-0" />
-      <div className="absolute inset-[22px] sm:inset-[30px] border border-[#AE7FD2]/50 rounded-[1.9rem] pointer-events-none z-0">
-        
-        {/* Corner Flourishes */}
-        {/* Top-Left */}
-        <svg className="absolute top-3 left-3 w-5 h-5 text-[#AE7FD2]/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Top-Right */}
-        <svg className="absolute top-3 right-3 w-5 h-5 text-[#AE7FD2]/85 rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Bottom-Left */}
-        <svg className="absolute bottom-3 left-3 w-5 h-5 text-[#AE7FD2]/85 -rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
-        {/* Bottom-Right */}
-        <svg className="absolute bottom-3 right-3 w-5 h-5 text-[#AE7FD2]/85 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M2,2 L14,2 M2,2 L2,14 M2,2 L10,10" />
-          <circle cx="10" cy="10" r="1" fill="currentColor" />
-        </svg>
+      <div className="absolute inset-4 sm:inset-6 border border-[#AE7FD2]/30 pointer-events-none z-0" />
+      <div className="absolute inset-[22px] sm:inset-[30px] border border-[#AE7FD2]/50 pointer-events-none z-0">
+        {/* Corner Flowers */}
+        <img 
+          src="/images/flower-1.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower1.size}px`,
+            height: `${FLOWER_CONFIG.flower1.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower1.rotation}deg)`,
+            top: `${FLOWER_CONFIG.flower1.y}px`,
+            left: `${FLOWER_CONFIG.flower1.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-2.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower2.size}px`,
+            height: `${FLOWER_CONFIG.flower2.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower2.rotation}deg)`,
+            top: `${FLOWER_CONFIG.flower2.y}px`,
+            right: `${FLOWER_CONFIG.flower2.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-3.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower3.size}px`,
+            height: `${FLOWER_CONFIG.flower3.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower3.rotation}deg)`,
+            bottom: `${FLOWER_CONFIG.flower3.y}px`,
+            left: `${FLOWER_CONFIG.flower3.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
+        <img 
+          src="/images/flower-4.png" 
+          alt="" 
+          style={{
+            width: `${FLOWER_CONFIG.flower4.size}px`,
+            height: `${FLOWER_CONFIG.flower4.size}px`,
+            transform: `rotate(${FLOWER_CONFIG.flower4.rotation}deg)`,
+            bottom: `${FLOWER_CONFIG.flower4.y}px`,
+            right: `${FLOWER_CONFIG.flower4.x}px`
+          }}
+          className="absolute object-contain pointer-events-none z-10" 
+        />
       </div>
 
       {/* Botanical Backdrop Line Drawings */}
@@ -172,7 +207,7 @@ export default function MicrositeClient({ image }: ImageProps) {
         </div>
         <button
           onClick={handleCopyLink}
-          className="text-xs font-semibold text-[#5C5047] hover:text-[#AE7FD2] bg-white/50 border border-[#AE7FD2]/20 px-3 py-1.5 rounded-full backdrop-blur-md transition-all active:scale-95 duration-200 cursor-pointer"
+          className="text-xs font-semibold text-[#5C5047] hover:text-[#AE7FD2] bg-white border border-[#AE7FD2]/20 px-3 py-1.5 rounded-full transition-all active:scale-95 duration-200 cursor-pointer"
         >
           {copied ? 'Link Copied!' : 'Copy Link'}
         </button>
@@ -182,7 +217,8 @@ export default function MicrositeClient({ image }: ImageProps) {
       <div className="w-full max-w-md mx-auto my-auto relative z-10 flex flex-col items-center gap-5">
         
         {/* Invitation Text Frame */}
-        <div className="text-center flex flex-col items-center select-none">
+        <div className="text-center flex flex-col items-center select-none mb-1">
+          <img src="/images/Lux-Logo-flat.png" alt="LUX Logo" className="w-16 sm:w-20 h-auto object-contain brightness-0 mb-1" />
           <h1 className="font-script text-4xl sm:text-5xl text-[#9A69BD] leading-tight tracking-wide">
             Bonjour to
           </h1>
@@ -200,7 +236,7 @@ export default function MicrositeClient({ image }: ImageProps) {
         </div>
 
         {/* Polaroid Card wrapper */}
-        <div className="w-full bg-white/50 backdrop-blur-xl border border-white/70 rounded-[2rem] p-5 shadow-[0_8px_30px_rgba(174,127,210,0.1)] flex flex-col gap-5">
+        <div className="w-full bg-white border border-[#AE7FD2]/20 rounded-[2rem] p-5 shadow-[0_8px_30px_rgba(174,127,210,0.1)] flex flex-col gap-5">
           
           {/* Image Display */}
           <div className="relative w-full aspect-[4/5] rounded-[1.4rem] overflow-hidden bg-[#ECE6DD]/80 border border-[#AE7FD2]/15 shadow-inner flex items-center justify-center group">
@@ -219,14 +255,6 @@ export default function MicrositeClient({ image }: ImageProps) {
                   The image preview failed to load. However, the download and share buttons below remain fully functional.
                 </span>
               </div>
-            )}
-            
-            {/* Ambient Image Glow */}
-            {imageLoaded && !imageError && (
-              <div 
-                className="absolute inset-0 scale-[1.08] blur-2xl opacity-15 pointer-events-none transition-all duration-700"
-                style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-              />
             )}
 
             <img
@@ -322,6 +350,8 @@ export default function MicrositeClient({ image }: ImageProps) {
           © {new Date().getFullYear()} Lumina Havelock • Powered by FLYXTO
         </p>
       </footer>
+
+
     </main>
   );
 }

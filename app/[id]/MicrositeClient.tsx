@@ -28,6 +28,8 @@ export default function MicrositeClient({ image }: ImageProps) {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
 
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const imgRef = useRef<HTMLImageElement>(null);
   
   // Safe URL encoding for filenames with spaces/special characters
@@ -45,6 +47,29 @@ export default function MicrositeClient({ image }: ImageProps) {
       setImageLoaded(true);
     }
   }, []);
+
+  // Pre-fetch the file for synchronous iOS native share drawer invocation
+  useEffect(() => {
+    if (!imageLoaded) return;
+
+    const prefetchImage = async () => {
+      try {
+        const targetUrl = `/api/download?url=${encodeURIComponent(imageUrl)}`;
+        const response = await fetch(targetUrl);
+        if (!response.ok) throw new Error('Proxy download failed');
+        
+        const blob = await response.blob();
+        const fileExt = imageUrl.split('.').pop()?.split('?')[0] || 'jpg';
+        const filename = `souvenir.${fileExt}`;
+        const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
+        setImageFile(file);
+      } catch (err) {
+        console.error('Pre-fetching image file for share failed:', err);
+      }
+    };
+
+    prefetchImage();
+  }, [imageLoaded, imageUrl]);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -72,40 +97,65 @@ export default function MicrositeClient({ image }: ImageProps) {
 
   const handleShare = async () => {
     if (!navigator.share) {
-      // Fallback: Copy link to clipboard
-      handleCopyLink();
+      handleDownload();
       return;
     }
 
+    // 1. If image file has been pre-fetched, trigger share immediately (maintaining gesture token)
+    if (imageFile) {
+      setIsSharing(true);
+      try {
+        if (navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+          await navigator.share({
+            files: [imageFile],
+            title: 'My Captured Memory',
+            text: 'Check out my photo from the experience!',
+          });
+        } else {
+          await navigator.share({
+            url: window.location.href,
+            title: 'My Captured Memory',
+            text: 'Check out my photo from the experience!',
+          });
+        }
+      } catch (err) {
+        console.error('Natively sharing pre-fetched image failed:', err);
+      } finally {
+        setIsSharing(false);
+      }
+      return;
+    }
+
+    // 2. Fallback: pre-fetch was slow or failed, download file dynamically
     setIsSharing(true);
     try {
-      // 1. Try to fetch the image file to share it natively
-      const response = await fetch(imageUrl);
+      const targetUrl = `/api/download?url=${encodeURIComponent(imageUrl)}`;
+      const response = await fetch(targetUrl);
       const blob = await response.blob();
-      const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1) || 'photo.jpg';
+      const fileExt = imageUrl.split('.').pop()?.split('?')[0] || 'jpg';
+      const filename = `souvenir.${fileExt}`;
       const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: 'My Captured Memory',
-          text: 'Check out my photo from the Lumina Havelock experience!',
+          text: 'Check out my photo from the experience!',
         });
       } else {
-        // Fallback to sharing the URL directly if files cannot be shared
         await navigator.share({
           url: window.location.href,
           title: 'My Captured Memory',
-          text: 'Check out my photo from the Lumina Havelock experience!',
+          text: 'Check out my photo from the experience!',
         });
       }
     } catch (err) {
-      console.error('Natively sharing image failed, sharing URL instead:', err);
+      console.error('Natively sharing dynamically fetched image failed, sharing URL instead:', err);
       try {
         await navigator.share({
           url: window.location.href,
           title: 'My Captured Memory',
-          text: 'Check out my photo from the Lumina Havelock experience!',
+          text: 'Check out my photo from the experience!',
         });
       } catch (shareErr) {
         console.error('Web Share failed completely:', shareErr);

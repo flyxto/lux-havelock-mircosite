@@ -15,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   return {
-    title: `Lumina Havelock Experience`,
-    description: `Retrieve, share and download your captured memory from the Lumina Havelock experience.`,
+    title: `Lux Havelock Experience`,
+    description: `Retrieve, share and download your captured memory from the Lux Havelock experience.`,
     openGraph: {
-      title: 'Lumina Havelock Experience',
+      title: 'Lux Havelock Experience',
       description: 'Your captured memory is ready. View, share or download your photo.',
       type: 'website',
     },
@@ -76,11 +76,11 @@ function ErrorState({ message }: { message: string }) {
         <div className="mx-auto w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mb-5 border border-red-500/20">
           <ShieldAlert className="w-6 h-6 text-red-400" />
         </div>
-        
+
         <h2 className="text-xl font-semibold text-white tracking-tight mb-2">
           Unable to Retrieve Image
         </h2>
-        
+
         <p className="text-sm text-zinc-400 leading-relaxed mb-6">
           {message}
         </p>

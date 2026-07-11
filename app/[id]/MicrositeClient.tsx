@@ -31,14 +31,14 @@ export default function MicrositeClient({ image }: ImageProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const imgRef = useRef<HTMLImageElement>(null);
-  
+
   // Safe URL encoding for filenames with spaces/special characters
   const imageUrl = encodeURI(image.imageUrl);
 
   useEffect(() => {
     // Detect iOS client platform
     const userAgent = window.navigator.userAgent || window.navigator.vendor || '';
-    const isIOSDevice = /iPad|iPhone|iPod/.test(userAgent) || 
+    const isIOSDevice = /iPad|iPhone|iPod/.test(userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     setIsIOS(isIOSDevice);
 
@@ -57,7 +57,7 @@ export default function MicrositeClient({ image }: ImageProps) {
         const targetUrl = `/api/download?id=${image.id}`;
         const response = await fetch(targetUrl);
         if (!response.ok) throw new Error('Proxy download failed');
-        
+
         const blob = await response.blob();
         const fileExt = imageUrl.split('.').pop()?.split('?')[0] || 'jpg';
         const fileType = fileExt === 'png' ? 'image/png' : 'image/jpeg';
@@ -83,7 +83,7 @@ export default function MicrositeClient({ image }: ImageProps) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Show checkmark after a short duration
       setTimeout(() => {
         setIsDownloading(false);
@@ -170,14 +170,14 @@ export default function MicrositeClient({ image }: ImageProps) {
 
   return (
     <main className="min-h-screen bg-[#EEE8E0] text-[#2C2520] flex flex-col justify-between p-4 sm:p-6 relative overflow-hidden font-sans select-none">
-      
+
       {/* Elegant Double Framing Borders */}
       <div className="absolute inset-4 sm:inset-6 border border-[#AE7FD2]/30 pointer-events-none z-0" />
       <div className="absolute inset-[22px] sm:inset-[30px] border border-[#AE7FD2]/50 pointer-events-none z-0">
         {/* Corner Flowers */}
-        <img 
-          src="/images/flower-1.png" 
-          alt="" 
+        <img
+          src="/images/flower-1.png"
+          alt=""
           style={{
             width: `${FLOWER_CONFIG.flower1.size}px`,
             height: `${FLOWER_CONFIG.flower1.size}px`,
@@ -185,11 +185,11 @@ export default function MicrositeClient({ image }: ImageProps) {
             top: `${FLOWER_CONFIG.flower1.y}px`,
             left: `${FLOWER_CONFIG.flower1.x}px`
           }}
-          className="absolute object-contain pointer-events-none z-10" 
+          className="absolute object-contain pointer-events-none z-10"
         />
-        <img 
-          src="/images/flower-2.png" 
-          alt="" 
+        <img
+          src="/images/flower-2.png"
+          alt=""
           style={{
             width: `${FLOWER_CONFIG.flower2.size}px`,
             height: `${FLOWER_CONFIG.flower2.size}px`,
@@ -197,11 +197,11 @@ export default function MicrositeClient({ image }: ImageProps) {
             top: `${FLOWER_CONFIG.flower2.y}px`,
             right: `${FLOWER_CONFIG.flower2.x}px`
           }}
-          className="absolute object-contain pointer-events-none z-10" 
+          className="absolute object-contain pointer-events-none z-10"
         />
-        <img 
-          src="/images/flower-3.png" 
-          alt="" 
+        <img
+          src="/images/flower-3.png"
+          alt=""
           style={{
             width: `${FLOWER_CONFIG.flower3.size}px`,
             height: `${FLOWER_CONFIG.flower3.size}px`,
@@ -209,11 +209,11 @@ export default function MicrositeClient({ image }: ImageProps) {
             bottom: `${FLOWER_CONFIG.flower3.y}px`,
             left: `${FLOWER_CONFIG.flower3.x}px`
           }}
-          className="absolute object-contain pointer-events-none z-10" 
+          className="absolute object-contain pointer-events-none z-10"
         />
-        <img 
-          src="/images/flower-4.png" 
-          alt="" 
+        <img
+          src="/images/flower-4.png"
+          alt=""
           style={{
             width: `${FLOWER_CONFIG.flower4.size}px`,
             height: `${FLOWER_CONFIG.flower4.size}px`,
@@ -221,7 +221,7 @@ export default function MicrositeClient({ image }: ImageProps) {
             bottom: `${FLOWER_CONFIG.flower4.y}px`,
             right: `${FLOWER_CONFIG.flower4.x}px`
           }}
-          className="absolute object-contain pointer-events-none z-10" 
+          className="absolute object-contain pointer-events-none z-10"
         />
       </div>
 
@@ -247,7 +247,7 @@ export default function MicrositeClient({ image }: ImageProps) {
 
       {/* Main Container */}
       <div className="w-full max-w-md mx-auto my-auto relative z-10 flex flex-col items-center gap-5">
-        
+
         {/* Invitation Text Frame */}
         <div className="text-center flex flex-col items-center select-none mb-1">
           <img src="/images/Lux-Logo-flat.png" alt="LUX Logo" className="w-16 sm:w-20 h-auto object-contain brightness-0 mb-1" />
@@ -281,15 +281,14 @@ export default function MicrositeClient({ image }: ImageProps) {
           <img
             ref={imgRef}
             src={imageUrl}
-            alt="Lumina Souvenir"
+            alt="Lux Souvenir"
             onLoad={() => setImageLoaded(true)}
             onError={() => {
               setImageError(true);
               setImageLoaded(false);
             }}
-            className={`w-full h-full object-cover relative z-10 transition-all duration-700 ease-out select-none pointer-events-none ${
-              imageLoaded && !imageError ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-            }`}
+            className={`w-full h-full object-cover relative z-10 transition-all duration-700 ease-out select-none pointer-events-none ${imageLoaded && !imageError ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+              }`}
           />
         </div>
 
@@ -322,11 +321,10 @@ export default function MicrositeClient({ image }: ImageProps) {
             <button
               onClick={handleDownload}
               disabled={isDownloading || downloadSuccess}
-              className={`w-full h-13 transition-all duration-300 rounded-xl font-semibold text-white shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
-                downloadSuccess
+              className={`w-full h-13 transition-all duration-300 rounded-xl font-semibold text-white shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${downloadSuccess
                   ? 'bg-emerald-600 shadow-emerald-600/10'
                   : 'bg-[#AE7FD2] hover:bg-[#9E6DC4] shadow-[#AE7FD2]/20'
-              }`}
+                }`}
             >
               {isDownloading ? (
                 <>
@@ -353,7 +351,7 @@ export default function MicrositeClient({ image }: ImageProps) {
       {/* Footer */}
       <footer className="w-full text-center py-4 relative z-10">
         <p className="text-[9px] text-[#5C5047]/60 tracking-wider">
-          Powered by FLYXTO
+
         </p>
       </footer>
 

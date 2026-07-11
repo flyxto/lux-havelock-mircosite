@@ -20,7 +20,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Lumina Experience Portal",
+  title: "Lux International",
   description: "Bonjour to Glowing Skin - View and save your memories.",
 };
 

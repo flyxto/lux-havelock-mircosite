@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Bonjour to Glowing Skin',
-  description: 'Bonjour to Glowing Skin experience portal.',
+  description: 'Bonjour to Glowing Skin',
 };
 
 // Hardcoded user-calibrated layout coordinates
